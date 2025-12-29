@@ -51,8 +51,8 @@ commandManager.register(new InfoCommand());
 commandManager.register(new StatusCommand());
 commandManager.register(new AFKCommand());
 
-// Register help command last so it has access to all commands
-const helpCommand = new HelpCommand(commandManager.getAll());
+// Create help command with reference to commandManager so it can access all commands
+const helpCommand = new HelpCommand(commandManager);
 commandManager.register(helpCommand);
 
 // ==================== EVENT HANDLERS ====================

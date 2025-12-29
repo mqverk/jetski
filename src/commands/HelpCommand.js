@@ -2,13 +2,13 @@ const Command = require('./Command');
 
 // Example: Help command - displays all available commands
 class HelpCommand extends Command {
-  constructor(commands = new Map()) {
+  constructor(commandManager) {
     super({
       name: 'help',
       description: 'Display available commands',
       aliases: ['h', 'commands'],
     });
-    this.commands = commands;
+    this.commandManager = commandManager;
   }
 
   async execute(message, args) {
@@ -16,10 +16,7 @@ class HelpCommand extends Command {
 
     if (commandName) {
       // Show help for specific command
-      const command = this.commands.get(commandName) || 
-                     Array.from(this.commands.values()).find(cmd => 
-                       cmd.aliases.includes(commandName)
-                     );
+      const command = this.commandManager.get(commandName);
 
       if (!command) {
         return message.reply(`❌ Command \`${commandName}\` not found.`);
@@ -29,7 +26,7 @@ class HelpCommand extends Command {
     }
 
     // Show all commands
-    const commandList = Array.from(this.commands.values())
+    const commandList = Array.from(this.commandManager.getAll().values())
       .filter((cmd, index, arr) => arr.indexOf(cmd) === index) // Remove duplicates
       .map(cmd => `**${cmd.name}** - ${cmd.description}`)
       .join('\n');

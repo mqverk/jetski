@@ -26,7 +26,7 @@ class AFKCommand extends Command {
     super({
       name: 'afk',
       description: 'Set AFK status with different modes',
-      aliases: ['away', 'brb', 'status'],
+      aliases: ['away', 'brb'],
     });
   }
 

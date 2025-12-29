@@ -76,9 +76,8 @@ class AFKCommand extends Command {
 
   getAfkMessage() {
     if (!afkStatus.isAFK) return null;
-    const modeInfo = modes[afkStatus.mode] || modes.afk;
-    const baseMsg = `${modeInfo.emoji} ${modeInfo.name}`;
-    return afkStatus.message ? `${baseMsg} - ${afkStatus.message}` : baseMsg;
+    const customMsg = afkStatus.message ? ` - ${afkStatus.message}` : '';
+    return `${afkStatus.mode}${customMsg}`;
   }
 
   getDuration(startTime) {

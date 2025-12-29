@@ -86,6 +86,23 @@ client.on('messageCreate', async (message) => {
       return;
     }
 
+    // Check if user is mentioned and currently AFK
+    if (message.mentions.has(client.user.id) && message.author.id !== client.user.id) {
+      // Get the AFK command instance to check status
+      const afkCommand = commandManager.get('afk');
+      const afkStatus = afkCommand.getStatus();
+
+      if (afkStatus.isAFK) {
+        const afkMessage = afkCommand.getAfkMessage();
+        try {
+          await message.reply(`Hey, I'm AFK rn, ${afkMessage}.`);
+        } catch (err) {
+          console.error('Error sending AFK reply:', err.message);
+        }
+        return;
+      }
+    }
+
     // Check if message is a command
     if (!commandParser.isCommand(message.content)) {
       return;
